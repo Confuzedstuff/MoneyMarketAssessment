@@ -1,0 +1,8 @@
+services:
+  #TODO API
+  #TODO AKKA
+  #TODO DATABASE
+  #TODO QUEUE
+  queue:
+    image: "rabbitmq:3.13.0-alpine"
+  
