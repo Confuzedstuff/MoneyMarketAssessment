@@ -2,4 +2,7 @@ package com.shoprite.api.controllers.dtos
 
 import java.math.BigDecimal
 
-data class DepositDto(val amount: BigDecimal)
+data class DepositDto(
+    val amount: BigDecimal,
+    val currencyType: String
+)
