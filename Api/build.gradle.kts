@@ -5,6 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.4"
 	kotlin("jvm") version "1.9.22"
 	kotlin("plugin.spring") version "1.9.22"
+	kotlin("plugin.jpa") version "1.9.22"
 }
 
 group = "com.shoprite"
@@ -26,6 +27,10 @@ dependencies {
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
 	implementation("com.trendyol:kediatr-spring-starter:3.0.0")
+
+	implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
+
+	implementation("org.springframework.data:spring-data-jpa:3.2.3")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

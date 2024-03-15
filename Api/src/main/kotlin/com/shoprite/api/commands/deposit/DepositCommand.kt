@@ -8,3 +8,4 @@ data class DepositCommand(
     val amount: BigDecimal,
     val currencyType: CurrencyType
 ) : Command
+
