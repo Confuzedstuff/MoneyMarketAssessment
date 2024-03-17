@@ -1,8 +1,5 @@
 package com.shoprite.api.domain
 
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
-
 
 @JvmInline
 value class AccountNumber(val value: Int) {
@@ -13,5 +10,3 @@ value class AccountNumber(val value: Int) {
     }
 }
 
-@Repository
-interface UserRepository : JpaRepository<User?, Long?>

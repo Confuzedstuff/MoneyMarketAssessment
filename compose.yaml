@@ -1,8 +1,29 @@
 services:
   #TODO API
-  #TODO AKKA
-  #TODO DATABASE
+  identity-service:
+    environment:
+      KEYCLOAK_ADMIN: admin 
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    image: quay.io/keycloak/keycloak:24.0.1
+    ports:
+      - 8090:8080
+    command:
+      - start-dev
+    restart: unless-stopped
+  db:
+    image: postgres:16.2-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
   #TODO QUEUE
-  queue:
-    image: "rabbitmq:3.13.0-alpine"
+  # queue-service:
+  #   image: rabbitmq:3.13.0-alpine
   

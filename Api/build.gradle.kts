@@ -29,9 +29,13 @@ dependencies {
 	implementation("com.trendyol:kediatr-spring-starter:3.0.0")
 
 	implementation("org.hibernate.orm:hibernate-core:6.4.4.Final")
+	implementation("org.postgresql:postgresql:42.7.3")
 
-	implementation("org.springframework.data:spring-data-jpa:3.2.3")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+	implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.2.3")
+	implementation("org.keycloak:keycloak-policy-enforcer:24.0.1")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
