@@ -10,11 +10,14 @@ import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder
 import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter
 import org.springframework.security.web.SecurityFilterChain
-import java.io.IOException
+import org.springframework.stereotype.Component
+
 
 
 @Configuration
@@ -27,28 +30,23 @@ class OAuth2ResourceServerSecurityConfiguration {
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .authorizeHttpRequests(
-                Customizer { authorize ->
-                    authorize
-                        .anyRequest().authenticated()
-                }
-            )
-            .oauth2ResourceServer { obj: OAuth2ResourceServerConfigurer<HttpSecurity?> -> obj.jwt() }
+            .authorizeHttpRequests { authorize ->
+                authorize.requestMatchers("/**")
+                    .permitAll()
+                    .anyRequest().authenticated()
+            }
+            .oauth2ResourceServer { configurer ->
+                configurer.jwt(Customizer.withDefaults())
+            }
             .addFilterAfter(createPolicyEnforcerFilter(), BearerTokenAuthenticationFilter::class.java)
         return http.build()
     }
 
     private fun createPolicyEnforcerFilter(): ServletPolicyEnforcerFilter {
-        val config: PolicyEnforcerConfig
-
-        try {
-            config = JsonSerialization.readValue(
-                javaClass.getResourceAsStream("/policy-enforcer.json"),
-                PolicyEnforcerConfig::class.java
-            )
-        } catch (e: IOException) {
-            throw RuntimeException(e)
-        }
+        val config: PolicyEnforcerConfig = JsonSerialization.readValue(
+            javaClass.getResourceAsStream("/policy-enforcer.json"),
+            PolicyEnforcerConfig::class.java
+        )
         return ServletPolicyEnforcerFilter { config }
     }
 
@@ -56,4 +54,5 @@ class OAuth2ResourceServerSecurityConfiguration {
     fun jwtDecoder(): JwtDecoder {
         return NimbusJwtDecoder.withJwkSetUri(this.jwkSetUri).build()
     }
+
 }

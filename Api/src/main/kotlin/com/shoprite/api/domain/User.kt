@@ -8,6 +8,7 @@ import jakarta.persistence.OneToMany
 class User(
     @Id
     val id: Long,
+    val userName: String,
     @OneToMany
     val accounts: Set<Account>
 )

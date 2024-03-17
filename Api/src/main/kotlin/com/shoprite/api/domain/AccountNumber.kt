@@ -9,4 +9,3 @@ value class AccountNumber(val value: Int) {
         }
     }
 }
-
