@@ -1,14 +1,14 @@
 package com.shoprite.api.domain
 
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
+import jakarta.persistence.*
 
 @Entity
+@Table(name = "users")
 class User(
-    @Id
-    val id: Long,
     val userName: String,
     @OneToMany
-    val accounts: Set<Account>
+    @JoinColumn(name = "user_id")
+    val accounts: Set<Account>,
+    @Id @GeneratedValue var id: Long? = null
+
 )

@@ -15,11 +15,6 @@ class AccountController(
     val mediator: Mediator,
     val userService: UserService
 ) {
-    @GetMapping("test")
-    fun test() {
-        println("hi")
-    }
-
     @PostMapping("deposit")
     suspend fun deposit(
         @RequestBody deposit: DepositDto,
