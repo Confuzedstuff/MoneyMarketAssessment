@@ -9,4 +9,8 @@ value class MonetaryAmount(val value: BigDecimal) {
             "Monetary amount must be greater than 0"
         }
     }
+
+    operator fun times(other: MonetaryAmount): MonetaryAmount {
+        return MonetaryAmount(value * other.value)
+    }
 }
