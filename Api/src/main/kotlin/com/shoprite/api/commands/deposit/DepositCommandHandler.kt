@@ -18,16 +18,8 @@ class DepositCommandHandler(
     override suspend fun handle(command: DepositCommand) {
 //        withContext(Dispatchers.IO) {
         val user = repo.findByUserName(command.userName.value)
-
         val account = user.accounts.first { x -> x.accountType.type == command.currencyType.value }
-        println(account.accountType.type)
-        val ts =  Transaction(TransactionType.CREDIT, account.id!!, command.amount)
-        //
-        transactions.saveAndFlush(ts)
-//        for (account in user.accounts) {
-//            println(account.id)
-//            println(account.accountType.type)
-//        }
-//        }
+        val transactions = Transaction(TransactionType.CREDIT, account.id, command.amount)
+        this.transactions.save(transactions)
     }
 }

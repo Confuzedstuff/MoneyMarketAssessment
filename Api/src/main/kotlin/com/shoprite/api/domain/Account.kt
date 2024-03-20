@@ -12,7 +12,9 @@ class Account(
     @JoinColumn(name = "account_id")
     val transactions: Set<Transaction>,
 
-    @Id @GeneratedValue var id: Long? = null
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
+    val id: Long = 0
 
 )
 
