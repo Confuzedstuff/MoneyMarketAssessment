@@ -47,13 +47,13 @@ class AccountController(
         mediator.send(command)
     }
 
-    @GetMapping("report")
+    @GetMapping("report/{accountId}")
     suspend fun report(
-        @RequestBody body: ReportDto,
+        @PathVariable accountId: Long,
         @AuthenticationPrincipal jwt: Jwt
     ): ReportResponse {
         val userName = userService.getUserNameFromJwt(jwt)
-        val account = AccountNumber(body.account)
+        val account = AccountNumber(accountId)
         val command = ReportQuery(userName, account)
         val response = mediator.send(command)
         return response // TODO introduce mapping to a dto
