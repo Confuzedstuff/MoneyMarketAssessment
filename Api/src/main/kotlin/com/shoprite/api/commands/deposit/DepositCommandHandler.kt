@@ -1,7 +1,6 @@
 package com.shoprite.api.commands.deposit
 
 import com.shoprite.api.domain.Transaction
-import com.shoprite.api.domain.TransactionType
 import com.shoprite.api.infrastructure.TransactionsRepository
 import com.shoprite.api.infrastructure.UserRepository
 import com.trendyol.kediatr.CommandHandler
@@ -19,8 +18,8 @@ class DepositCommandHandler(
 //        withContext(Dispatchers.IO) {
         val user = repo.findByUserName(command.userName.value)
         val account = user.accounts.first { x -> x.accountType.type == command.currencyType.value }
-        val transactions = Transaction(TransactionType.CREDIT, account.id, command.amount.value)
-        this.transactions.save(transactions)
+        val debit = Transaction.createDebit(account.id, command.amount)
+        this.transactions.save(debit)
     }
 }
 

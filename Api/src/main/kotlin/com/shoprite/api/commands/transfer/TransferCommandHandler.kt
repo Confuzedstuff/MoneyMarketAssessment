@@ -32,8 +32,8 @@ class TransferCommandHandler(
         //TODO convert to target currency
         val convertedAmount = command.amount
 
-        val debit = Transaction(TransactionType.DEBIT, sourceAccount.id, command.amount.value)
-        val credit = Transaction(TransactionType.CREDIT, targetAccount.id, convertedAmount.value)
+        val debit = Transaction.createDebit(sourceAccount.id, command.amount)
+        val credit = Transaction.createCredit(targetAccount.id, convertedAmount)
         val transactions = listOf(debit, credit)
         this.transactions.saveAll(transactions)
     }
