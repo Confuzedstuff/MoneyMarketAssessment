@@ -22,3 +22,12 @@ class DepositCommandHandler(
     }
 }
 
+
+@Service
+class GenerateReportCommandHandler(
+) : CommandHandler<DepositCommand> {
+    override suspend fun handle(command: DepositCommand) {
+    }
+}
+
+

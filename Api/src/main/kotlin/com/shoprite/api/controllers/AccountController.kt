@@ -24,25 +24,25 @@ class AccountController(
 ) {
     @PostMapping("deposit")
     suspend fun deposit(
-        @RequestBody deposit: DepositDto,
+        @RequestBody requestBody: DepositDto,
         @AuthenticationPrincipal jwt: Jwt
     ) {
         val userName = userService.getUserNameFromJwt(jwt)
-        val currencyType = CurrencyType(deposit.currencyType)
-        val amount = MonetaryAmount(deposit.amount)
+        val currencyType = CurrencyType(requestBody.currencyType)
+        val amount = MonetaryAmount(requestBody.amount)
         val command = DepositCommand(userName, amount, currencyType)
         mediator.send(command)
     }
 
     @PostMapping("transfer")
     suspend fun transfer(
-        @RequestBody transfer: TransferDto,
+        @RequestBody requestBody: TransferDto,
         @AuthenticationPrincipal jwt: Jwt
     ) {
         val userName = userService.getUserNameFromJwt(jwt)
-        val currencyType = CurrencyType(transfer.currencyType)
-        val amount = MonetaryAmount(transfer.amount)
-        val destinationAccount = AccountNumber(transfer.destinationAccount)
+        val currencyType = CurrencyType(requestBody.currencyType)
+        val amount = MonetaryAmount(requestBody.amount)
+        val destinationAccount = AccountNumber(requestBody.destinationAccount)
         val command = TransferCommand(userName, amount, currencyType, destinationAccount)
         mediator.send(command)
     }
@@ -54,6 +54,18 @@ class AccountController(
     ): ReportResponse {
         val userName = userService.getUserNameFromJwt(jwt)
         val account = AccountNumber(accountId)
+        val command = ReportQuery(userName, account)
+        val response = mediator.send(command)
+        return response // TODO introduce mapping to a dto
+    }
+
+    @PostMapping("generate-report")
+    suspend fun generateReport(
+        @RequestBody requestBody: ReportDto,
+        @AuthenticationPrincipal jwt: Jwt
+    ): ReportResponse {
+        val userName = userService.getUserNameFromJwt(jwt)
+        val account = AccountNumber(requestBody.account)
         val command = ReportQuery(userName, account)
         val response = mediator.send(command)
         return response // TODO introduce mapping to a dto
