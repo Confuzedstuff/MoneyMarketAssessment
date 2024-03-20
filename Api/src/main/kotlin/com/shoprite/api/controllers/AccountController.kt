@@ -1,8 +1,12 @@
 package com.shoprite.api.controllers
 
 import com.shoprite.api.commands.deposit.DepositCommand
+import com.shoprite.api.commands.transfer.TransferCommand
 import com.shoprite.api.controllers.dtos.DepositDto
+import com.shoprite.api.controllers.dtos.TransferDto
+import com.shoprite.api.domain.AccountNumber
 import com.shoprite.api.domain.CurrencyType
+import com.shoprite.api.domain.MonetaryAmount
 import com.shoprite.api.services.UserService
 import com.trendyol.kediatr.Mediator
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -22,7 +26,21 @@ class AccountController(
     ) {
         val userName = userService.getUserNameFromJwt(jwt);
         val currencyType = CurrencyType(deposit.currencyType)
-        val command = DepositCommand(userName, deposit.amount, currencyType)
+        val amount = MonetaryAmount(deposit.amount)
+        val command = DepositCommand(userName, amount, currencyType)
+        mediator.send(command)
+    }
+
+    @PostMapping("transfer")
+    suspend fun transfer(
+        @RequestBody transfer: TransferDto,
+        @AuthenticationPrincipal jwt: Jwt
+    ) {
+        val userName = userService.getUserNameFromJwt(jwt);
+        val currencyType = CurrencyType(transfer.currencyType)
+        val amount = MonetaryAmount(transfer.amount)
+        val destinationAccount = AccountNumber(transfer.destinationAccount)
+        val command = TransferCommand(userName, amount, currencyType, destinationAccount)
         mediator.send(command)
     }
 }

@@ -19,7 +19,8 @@ class DepositCommandHandler(
 //        withContext(Dispatchers.IO) {
         val user = repo.findByUserName(command.userName.value)
         val account = user.accounts.first { x -> x.accountType.type == command.currencyType.value }
-        val transactions = Transaction(TransactionType.CREDIT, account.id, command.amount)
+        val transactions = Transaction(TransactionType.CREDIT, account.id, command.amount.value)
         this.transactions.save(transactions)
     }
 }
+

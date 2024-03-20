@@ -6,6 +6,7 @@ import java.math.BigDecimal
 @Entity
 @Table(name = "transactions")
 class Transaction(
+    @Convert(converter = TransactionTypeAttributeConverter::class)
     val transactionTypeId: TransactionType,
     @Column(name = "account_id")
     val accountId: Long,
