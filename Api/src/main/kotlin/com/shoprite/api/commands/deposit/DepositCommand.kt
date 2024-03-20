@@ -4,7 +4,6 @@ import com.shoprite.api.domain.CurrencyType
 import com.shoprite.api.domain.MonetaryAmount
 import com.shoprite.api.domain.UserName
 import com.trendyol.kediatr.Command
-import java.math.BigDecimal
 
 data class DepositCommand(
     val userName: UserName,

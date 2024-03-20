@@ -15,7 +15,6 @@ class TransferCommandHandler(
     val transactions: TransactionsRepository,
     val conversionRateService: ConversionRateService
 ) : CommandHandler<TransferCommand> {
-    @Transactional
     override suspend fun handle(command: TransferCommand) {
         val user = userRepository.findByUserName(command.userName.value)
         val sourceAccount = user.accounts.first { x -> x.accountType.type == command.currencyType.value }

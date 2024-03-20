@@ -7,3 +7,4 @@ data class TransferDto(
     val currencyType: String,
     val destinationAccount: Long
 )
+

@@ -13,7 +13,6 @@ class DepositCommandHandler(
     val userRepository: UserRepository,
     val transactions: TransactionsRepository
 ) : CommandHandler<DepositCommand> {
-    @Transactional
     override suspend fun handle(command: DepositCommand) {
 //        withContext(Dispatchers.IO) {
         val user = userRepository.findByUserName(command.userName.value)
