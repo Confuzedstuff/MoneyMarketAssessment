@@ -12,6 +12,7 @@ import com.shoprite.api.queries.report.ReportQuery
 import com.shoprite.api.queries.report.ReportResponse
 import com.shoprite.api.services.UserService
 import com.trendyol.kediatr.Mediator
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.oauth2.jwt.Jwt
 import org.springframework.web.bind.annotation.*
@@ -22,6 +23,7 @@ class AccountController(
     val mediator: Mediator,
     val userService: UserService
 ) {
+    @Operation(summary = "Deposit into account")
     @PostMapping("deposit")
     suspend fun deposit(
         @RequestBody requestBody: DepositDto,
@@ -34,6 +36,7 @@ class AccountController(
         mediator.send(command)
     }
 
+    @Operation(summary = "Transfer money between user accounts")
     @PostMapping("transfer")
     suspend fun transfer(
         @RequestBody requestBody: TransferDto,
@@ -47,6 +50,7 @@ class AccountController(
         mediator.send(command)
     }
 
+    @Operation(summary = "Retrieve a transaction report for account")
     @GetMapping("report/{accountId}")
     suspend fun report(
         @PathVariable accountId: Long,
@@ -56,9 +60,11 @@ class AccountController(
         val account = AccountNumber(accountId)
         val command = ReportQuery(userName, account)
         val response = mediator.send(command)
-        return response // TODO introduce mapping to a dto
+        return response
     }
 
+    @Operation(summary = "Generate a transaction report for account",
+        description = "")
     @PostMapping("generate-report")
     suspend fun generateReport(
         @RequestBody requestBody: ReportDto,
@@ -68,6 +74,6 @@ class AccountController(
         val account = AccountNumber(requestBody.account)
         val command = ReportQuery(userName, account)
         val response = mediator.send(command)
-        return response // TODO introduce mapping to a dto
+        return response // TODO introduce response mapping to a dto
     }
 }

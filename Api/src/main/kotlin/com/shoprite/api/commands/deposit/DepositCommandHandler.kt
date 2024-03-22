@@ -4,7 +4,6 @@ import com.shoprite.api.domain.Transaction
 import com.shoprite.api.infrastructure.TransactionsRepository
 import com.shoprite.api.infrastructure.UserRepository
 import com.trendyol.kediatr.CommandHandler
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 
@@ -19,14 +18,6 @@ class DepositCommandHandler(
         val account = user.accounts.first { x -> x.accountType.type == command.currencyType.value }
         val debit = Transaction.createDebit(account.id, command.amount)
         this.transactions.save(debit)
-    }
-}
-
-
-@Service
-class GenerateReportCommandHandler(
-) : CommandHandler<DepositCommand> {
-    override suspend fun handle(command: DepositCommand) {
     }
 }
 

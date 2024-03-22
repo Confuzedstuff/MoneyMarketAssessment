@@ -19,7 +19,6 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.stereotype.Component
 
 
-
 @Configuration
 @EnableWebSecurity
 class OAuth2ResourceServerSecurityConfiguration {
@@ -34,6 +33,7 @@ class OAuth2ResourceServerSecurityConfiguration {
                 authorize.requestMatchers("/**")
                     .permitAll()
                     .anyRequest().authenticated()
+                // TODO set up swagger ui unauthenticated access here
             }
             .oauth2ResourceServer { configurer ->
                 configurer.jwt(Customizer.withDefaults())
