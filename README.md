@@ -55,6 +55,3 @@ The example uses  a Keycloak server hosted on port `8090`.
 
 # Addendum
 -  Download Insomnia [here](https://insomnia.rest/download).
-
-# Things not considered
-- Setting up the cloud enviroment using a DMZ
