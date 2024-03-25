@@ -4,10 +4,10 @@
 1. Clone the repo.
 2. Run `docker-compose up` in the root directory of the repository to start the auth server and database.
 3. Connect to the db on `jdbc:postgresql://localhost:5432/postgres` using usename and password `postgres` and run the scripts in the `./docs/db` folder to create the database.
-3. Run the api project found in the `./Api` folder using `Intellij`.
-4. Install `Insomnia` and import the `Insomnia` collection found at `./docs/api-local-insomnia.json`.
-5. Retrieve auth token for user.
-6. You can now use this as a `Bearer` token to make requests to the api using.
+4. Run the api project found in the `./Api` folder using `Intellij`.
+5. Install `Insomnia` and import the `Insomnia` collection found at `./docs/api-local-insomnia.json`.
+6. Retrieve auth token for user.
+7. You can now use this as a `Bearer` token to make requests to the api using.
 
 ## Design
 ![overview](/docs/Overview.jpg)

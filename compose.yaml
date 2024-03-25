@@ -6,8 +6,9 @@ services:
     image: quay.io/keycloak/keycloak:24.0.1
     ports:
       - 8090:8080
-    command:
-      - start-dev
+    command: -v start-dev --import-realm
+    volumes:
+      - ./docs/keycloak:/opt/keycloak/data/import
     restart: unless-stopped
   db:
     image: postgres:16.2-alpine
