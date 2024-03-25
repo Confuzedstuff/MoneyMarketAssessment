@@ -1,6 +1,8 @@
 package com.shoprite.api.controllers
 
+import com.nimbusds.jose.proc.SecurityContext
 import com.shoprite.api.commands.deposit.DepositCommand
+import com.shoprite.api.commands.generateReport.GenerateReportCommand
 import com.shoprite.api.commands.transfer.TransferCommand
 import com.shoprite.api.controllers.dtos.DepositDto
 import com.shoprite.api.controllers.dtos.ReportDto
@@ -8,6 +10,7 @@ import com.shoprite.api.controllers.dtos.TransferDto
 import com.shoprite.api.domain.AccountNumber
 import com.shoprite.api.domain.CurrencyType
 import com.shoprite.api.domain.MonetaryAmount
+import com.shoprite.api.domain.WebHookCallbackUrl
 import com.shoprite.api.queries.report.ReportQuery
 import com.shoprite.api.queries.report.ReportResponse
 import com.shoprite.api.services.UserService
@@ -63,17 +66,19 @@ class AccountController(
         return response
     }
 
-    @Operation(summary = "Generate a transaction report for account",
-        description = "")
+    @Operation(
+        summary = "Generate a transaction report for account",
+        description = ""
+    )
     @PostMapping("generate-report")
     suspend fun generateReport(
         @RequestBody requestBody: ReportDto,
         @AuthenticationPrincipal jwt: Jwt
-    ): ReportResponse {
+    ) {
         val userName = userService.getUserNameFromJwt(jwt)
         val account = AccountNumber(requestBody.account)
-        val command = ReportQuery(userName, account)
-        val response = mediator.send(command)
-        return response // TODO introduce response mapping to a dto
+        val callback = WebHookCallbackUrl.create(requestBody.callback)
+        val command = GenerateReportCommand(userName, account, callback)
+        mediator.send(command)
     }
 }

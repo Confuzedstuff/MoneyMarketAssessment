@@ -1,7 +1,6 @@
 package com.shoprite.api
 
 import com.shoprite.api.domain.WebHookCallbackUrl
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
@@ -13,12 +12,12 @@ import java.util.stream.Stream
 class ApiApplicationTests {
     @ParameterizedTest
     @MethodSource("validUrls")
-    fun given_valid_url_then_create_valid_callback_url(rawUrl: String) {
+    fun `given valid url then create valid callback url`(rawUrl: String) {
         WebHookCallbackUrl.create(rawUrl)
     }
     @ParameterizedTest
     @MethodSource("invalidUrls")
-    fun given_invalid_url_then_throw_exception(rawUrl: String) {
+    fun `given invalid url then throw exception`(rawUrl: String) {
         assertThrows<MalformedURLException> {
             WebHookCallbackUrl.create(rawUrl)
         }
